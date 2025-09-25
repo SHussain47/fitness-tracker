@@ -4,6 +4,7 @@ import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ActivitiesPage from "./activities/ActivitiesPage";
 import Error404 from "./Error404.jsx";
+import { useAuth } from "./auth/AuthContext.jsx";
 
 /**
  * Fitness Trackr is a platform where fitness enthusiasts can share their workouts and
@@ -12,6 +13,7 @@ import Error404 from "./Error404.jsx";
  */
 export default function App() {
   const { page } = usePage();
+  const { token } = useAuth();
 
   if (page === "register") return <Register />;
   if (page === "login") return <Login />;
@@ -19,3 +21,4 @@ export default function App() {
 
   return <Error404 />;
 }
+

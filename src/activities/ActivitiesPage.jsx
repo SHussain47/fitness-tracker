@@ -19,7 +19,7 @@ export default function ActivitiesPage() {
   return (
     <>
       <h1>Activities</h1>
-      <ActivityList activities={activities} />
+      <ActivityList activities={activities} setActivities={setActivities} />
       <ActivityForm syncActivities={syncActivities} />
     </>
   );

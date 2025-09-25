@@ -4,7 +4,7 @@
  * all of which update the token in state.
  */
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 // import.meta.env allows us to access environment variables,
 // which are defined in a file named .env
@@ -14,6 +14,13 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState();
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+    }
+  }, [token]);
 
   const register = async (credentials) => {
     const response = await fetch(API + "/users/register", {
@@ -39,9 +46,13 @@ export function AuthProvider({ children }) {
       throw Error(result.message);
     }
     setToken(result.token);
+    localStorage.setItem("token", result.token);
   };
 
-  const logout = () => setToken(null);
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+  }
 
   const value = { token, register, login, logout };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
