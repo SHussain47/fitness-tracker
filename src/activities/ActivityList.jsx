@@ -7,11 +7,12 @@ export default function ActivityList({ activities, setActivities }) {
   const [deleteErrors, setDeleteErrors] = useState({});
 
   async function handleDelete(token, id) {
+    // Resets deleteErrors - So the message only shows for the most 
+    // recent delete failure
+    setDeleteErrors([]);
+
     try {
       await deleteActivity(token, id);
-      // If delete succeeds deleteErrors will be null
-      setDeleteErrors((oldErrors) => ({...oldErrors, [id]: null}));
-
       const newActivites = await getActivities();
       setActivities(newActivites);
     } catch (error) {
